@@ -6,6 +6,7 @@ interface ISignUp {
   email: string;
   password: string;
   name: string;
+  role: string;
 }
 
 export interface RespLoginSuccess {
@@ -22,7 +23,13 @@ export interface RespLoginError {
 
 export type RespSign = RespLoginSuccess | RespLoginError;
 
-export const signUpAdminUser = async ({ username, email, password, name }: ISignUp): Promise<RespSign> => {
+export const signUpAdminUser = async ({
+  username,
+  email,
+  password,
+  name,
+  role,
+}: ISignUp): Promise<RespSign> => {
   try {
     const response: AxiosResponse = await api.post(
       "/users/admin",
@@ -31,6 +38,7 @@ export const signUpAdminUser = async ({ username, email, password, name }: ISign
         email: email,
         password: password,
         name: name,
+        role: role,
       },
       { withCredentials: true }
     );

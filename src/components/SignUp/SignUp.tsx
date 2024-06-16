@@ -22,7 +22,9 @@ const SignUp = () => {
     username: "",
     response: "",
     name: "",
+    role: "",
   });
+  const [role, setRole] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,6 +34,7 @@ const SignUp = () => {
       username: formData.get("username") as string,
       password: formData.get("password") as string,
       name: formData.get("name") as string,
+      role: role,
     };
     const repeatPassword = formData.get("rep_password") as string;
 
@@ -42,6 +45,7 @@ const SignUp = () => {
       repeatPass: "",
       username: "",
       name: "",
+      role: "",
     };
 
     isValid =
@@ -77,6 +81,7 @@ const SignUp = () => {
       username: "",
       name: "",
       response: "",
+      role: "",
     });
 
     const response = await signUpAdminUser({
@@ -84,6 +89,7 @@ const SignUp = () => {
       username: userData.username,
       password: userData.password,
       name: userData.name,
+      role: userData.role,
     });
 
     if (!response.error && response.username && response.email) {
@@ -148,6 +154,32 @@ const SignUp = () => {
               error={!!errors.name}
               helperText={errors.name}
             />
+
+            <TextField
+              select
+              color="secondary"
+              margin="normal"
+              required
+              fullWidth
+              id="role"
+              label="Role"
+              name="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              SelectProps={{
+                native: true,
+              }}
+              error={!!errors.role}
+            >
+              <option value=""></option>
+              <option value="admin">Admin</option>
+              <option value="manager">Manager</option>
+              <option value="housekeeping">Housekeeping</option>
+              <option value="financial">Financial</option>
+              <option value="reception">Reception</option>
+              <option value="guest">Guest</option>
+            </TextField>
+
             <TextField
               color={"secondary"}
               margin="normal"
