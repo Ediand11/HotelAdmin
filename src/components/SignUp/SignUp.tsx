@@ -1,6 +1,6 @@
 "use client";
 
-import { signUpUser } from "@/api/auth/signUp";
+import { signUpAdminUser } from "@/api/auth/signUp";
 import {
   validatorEmail,
   validatorPassword,
@@ -21,6 +21,7 @@ const SignUp = () => {
     repeatPass: "",
     username: "",
     response: "",
+    name: "",
   });
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -30,6 +31,7 @@ const SignUp = () => {
       email: formData.get("email") as string,
       username: formData.get("username") as string,
       password: formData.get("password") as string,
+      name: formData.get("name") as string,
     };
     const repeatPassword = formData.get("rep_password") as string;
 
@@ -39,6 +41,7 @@ const SignUp = () => {
       password: "",
       repeatPass: "",
       username: "",
+      name: "",
     };
 
     isValid =
@@ -72,13 +75,15 @@ const SignUp = () => {
       password: "",
       repeatPass: "",
       username: "",
+      name: "",
       response: "",
     });
 
-    const response = await signUpUser({
-      emailUser: userData.email,
+    const response = await signUpAdminUser({
+      email: userData.email,
       username: userData.username,
-      passwordUser: userData.password,
+      password: userData.password,
+      name: userData.name,
     });
 
     if (!response.error && response.username && response.email) {
@@ -129,6 +134,19 @@ const SignUp = () => {
               autoFocus
               error={!!errors.username}
               helperText={errors.username}
+            />
+            <TextField
+              color={"secondary"}
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+              error={!!errors.name}
+              helperText={errors.name}
             />
             <TextField
               color={"secondary"}

@@ -1,7 +1,7 @@
 "use client";
 
 import { loginUser } from "@/api/auth/login";
-import { validatorEmail, validatorPassword } from "@/helper/validators";
+import { validatorPassword, validatorUsername } from "@/helper/validators";
 import { useUserStore } from "@/store/user";
 import { IUser } from "@/types";
 import { Box, Button, Container, CssBaseline, Grid, TextField, Typography } from "@mui/material";
@@ -15,7 +15,7 @@ const Login = () => {
   const router = useRouter();
 
   const [errors, setErrors] = useState({
-    email: "",
+    username: "",
     password: "",
     response: "",
   });
@@ -23,28 +23,28 @@ const Login = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const emailUser = formData.get("email") as string;
+    const username = formData.get("username") as string;
     const passwordUser = formData.get("password") as string;
 
-    const isEmailValid = validatorEmail(emailUser, (emailError) =>
-      setErrors((prev) => ({ ...prev, email: emailError }))
+    const isUsernameValid = validatorUsername(username, (usernameError) =>
+      setErrors((prev) => ({ ...prev, username: usernameError }))
     );
     const isPasswordValid = validatorPassword(passwordUser, (passwordError) =>
       setErrors((prev) => ({ ...prev, password: passwordError }))
     );
 
-    if (!isEmailValid || !isPasswordValid) {
+    if (!isUsernameValid || !isPasswordValid) {
       return;
     }
 
     setErrors({
-      email: "",
+      username: "",
       password: "",
       response: "",
     });
 
-    const response = await loginUser({ emailUser, passwordUser });
-    if (!response.error && response.username && response.email) {
+    const response = await loginUser({ username, passwordUser });
+    if (!response.error && response.username) {
       const user: IUser = {
         username: response.username,
         email: response.email,
@@ -77,13 +77,13 @@ const Login = () => {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
-              error={!!errors.email || !!errors.response}
-              helperText={errors.email || errors.response}
+              error={!!errors.username || !!errors.response}
+              helperText={errors.username || errors.response}
             />
             <TextField
               color={"secondary"}
